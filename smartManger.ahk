@@ -7,6 +7,9 @@ global steamPath := 'C:\Program Files (x86)\Steam\Steam.exe'
 global ahkMangertitel := "ssss"
 vpnDelayWait := 1000
 global steamOldPID := ""
+global steamURLDefault := "steam://rungameid/9915321440419184640"
+
+
 
 steamSmart(1,1)
 
@@ -31,6 +34,7 @@ steamSmart(mode,kb){
 ;this code to stop the script if kb is setted to 1kb
 configFile_File := FileRead(ConfigPath)
 if 0 =! RegExMatch(configFile_File,'"DownloadThrottleKbps"		"1"') {
+    fakegameLauncher()
     ;MsgBox ("kb is setted to 1kb")
     ExitApp
 }
@@ -172,3 +176,21 @@ CheckInternet()
 }
 
 }
+
+
+
+fakegameLauncher()
+
+
+
+fakegameLauncher(excludeTitle := "fakeGame.exe" , steamURL?){
+    steamURL := steamURL?? steamURLDefault
+        
+    if !WinExist(excludeTitle){
+        Run(steamURL)
+        ; Run ("'" . A_ScriptDir . '\fakeGame.exe"')
+    }
+    
+}
+
+
